@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Keerthivasan R — Software Developer. EEE graduate building impactful applications with Python, Flutter, AI, and Automation. One Piece inspired portfolio.">
+  <meta name="keywords" content="Keerthivasan R, Software Developer, Portfolio, Python, Flutter, AI, Automation, One Piece">
+  <meta name="author" content="Keerthivasan R">
+  <title>Keerthivasan R — Software Developer | A Greater Version of Myself</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☠️</text></svg>">
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-skull">☠️</div>
+    <div class="loading-text">Setting Sail...</div>
+    <div class="loading-bar-container">
+      <div class="loading-bar"></div>
+    </div>
+  </div>
+
+  <!-- Particle Overlay -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Cursor Glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="navbar">
+    <div class="nav-logo" id="navLogo">☠️ Keerthivasan R</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" id="nav-about">About</a></li>
+      <li><a href="#journey" id="nav-journey">Journey</a></li>
+      <li><a href="#projects" id="nav-projects">Projects</a></li>
+      <li><a href="#tech" id="nav-tech">Tech Stack</a></li>
+      <li><a href="#contact" id="nav-contact">Contact</a></li>
+    </ul>
+    <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero hero-cinematic" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="assets/images/ocean-hero-bg.jpg" alt="Epic ocean sunset with pirate ships">
+      <div class="hero-cloud-motion"></div>
+      <div class="hero-sun-glow"></div>
+      <div class="hero-ocean-shimmer"></div>
+      <div class="hero-light-streak"></div>
+    </div>
+
+    <!-- Keerthivasan portrait: same uploaded pose, anchored to the left corner. -->
+    <div class="hero-portrait-wrap" aria-hidden="true">
+      <div class="portrait-backlight"></div>
+      <img class="hero-portrait" src="assets/images/keerthi-hero.png" alt="">
+
+      <!-- Hair wind strands — wisps blowing from the curly hair -->
+      <div class="hair-strand hair-strand-1"></div>
+      <div class="hair-strand hair-strand-2"></div>
+      <div class="hair-strand hair-strand-3"></div>
+      <div class="hair-strand hair-strand-4"></div>
+      <div class="hair-strand hair-strand-5"></div>
+
+      <!-- Wider sweeping wind streaks across the figure -->
+      <div class="portrait-wind portrait-wind-1"></div>
+      <div class="portrait-wind portrait-wind-2"></div>
+      <div class="portrait-wind portrait-wind-3"></div>
+      <div class="portrait-wind portrait-wind-4"></div>
+      <div class="portrait-wind portrait-wind-5"></div>
+
+      <!-- Shirt/collar fabric ripple layers -->
+      <div class="shirt-wind"></div>
+      <div class="shirt-wind shirt-wind-2"></div>
+      <div class="shirt-wind shirt-wind-3"></div>
+
+      <!-- Golden wind dust particles -->
+      <div class="wind-particle wind-particle-1"></div>
+      <div class="wind-particle wind-particle-2"></div>
+      <div class="wind-particle wind-particle-3"></div>
+      <div class="wind-particle wind-particle-4"></div>
+      <div class="wind-particle wind-particle-5"></div>
+      <div class="wind-particle wind-particle-6"></div>
+      <div class="wind-particle wind-particle-7"></div>
+      <div class="wind-particle wind-particle-8"></div>
+    </div>
+
+    <div class="hero-atmosphere" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="hero-content">
+      <!-- Hero Info — wording/layout intentionally unchanged -->
+      <div class="hero-info">
+        <p class="hero-subtitle-top">⚓ Dead or Average</p>
+        <h1 class="hero-title">
+          <span id="heroName">Keerthivasan R</span>
+        </h1>
+        <p class="hero-role">Software Developer</p>
+        <p class="hero-tagline">"Still Exploring... Still Building... Still Me..."</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary" id="hero-cta-projects">
+            ⚔️ View Projects
+          </a>
+          <a href="#contact" class="btn btn-outline" id="hero-cta-contact">
+            📜 Contact Me
+          </a>
+        </div>
+        <div class="hero-nav-pills">
+          <div class="hero-nav-pill"><span class="pill-icon">⚒️</span><span>Build</span></div>
+          <div class="hero-nav-pill"><span class="pill-icon">📚</span><span>Learn</span></div>
+          <div class="hero-nav-pill"><span class="pill-icon">🧭</span><span>Explore</span></div>
+          <div class="hero-nav-pill"><span class="pill-icon">🔄</span><span>Repeat</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-mouse"></div>
+      <span>Scroll Down</span>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== ABOUT ME SECTION ===== -->
+  <section class="section section-ocean" id="about">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-icon">📜</span>
+        <h2 class="section-title">About Me</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I'm <strong>Keerthivasan R</strong>, an EEE graduate turned software developer. 
+            I enjoy building applications — especially where software, AI, automation 
+            and real-world problems meet.
+          </p>
+          <p>
+            My goal is to create useful tools, keep learning, and make an impact.
+            Every line of code is a step towards becoming <strong>a greater version of myself</strong>.
+          </p>
+          <div class="about-details">
+            <div class="about-detail-item">
+              <span class="detail-icon">📍</span>
+              <span>Coimbatore, India</span>
+            </div>
+            <div class="about-detail-item">
+              <span class="detail-icon">✉️</span>
+              <a href="mailto:keerthivasan6383007833@gmail.com">keerthivasan6383007833@gmail.com</a>
+            </div>
+            <div class="about-detail-item">
+              <span class="detail-icon">🐙</span>
+              <a href="https://github.com/whiteknight-spec" target="_blank" rel="noopener">whiteknight-spec</a>
+            </div>
+          </div>
+          <div class="about-map-badge">
+            🗺️ A Map to a Better Tomorrow
+          </div>
+        </div>
+        <div class="about-quote-card reveal-right">
+          <p class="about-quote">
+            "I'm not on a career path...<br>
+            I'm on my own Grand Line."
+          </p>
+          <p class="about-quote-author">— Keerthivasan R</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== MY JOURNEY SECTION ===== -->
+  <section class="section section-ocean" id="journey">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-icon">🧭</span>
+        <h2 class="section-title">My Journey</h2>
+      </div>
+      <div class="journey-timeline">
+        <!-- Item 1 -->
+        <div class="journey-item reveal">
+          <div class="journey-card">
+            <div class="journey-card-icon">⚡</div>
+            <h3>EEE (Foundation)</h3>
+            <p>Where it all began. Electrical Engineering gave me the analytical foundation and problem-solving mindset that powers everything I build today.</p>
+          </div>
+          <div class="journey-dot"></div>
+          <div class="journey-spacer"></div>
+        </div>
+        <!-- Item 2 -->
+        <div class="journey-item reveal">
+          <div class="journey-spacer"></div>
+          <div class="journey-dot"></div>
+          <div class="journey-card">
+            <div class="journey-card-icon">💻</div>
+            <h3>Exploring Code</h3>
+            <p>Python, Web, Mobile — diving deep into multiple technologies. Every language is a new island on the Grand Line, each with its own treasure.</p>
+          </div>
+        </div>
+        <!-- Item 3 -->
+        <div class="journey-item reveal">
+          <div class="journey-card">
+            <div class="journey-card-icon">🏗️</div>
+            <h3>Building Projects</h3>
+            <p>Real-world tools and applications. From AI resume analyzers to automation systems — shipping code that makes a difference.</p>
+          </div>
+          <div class="journey-dot"></div>
+          <div class="journey-spacer"></div>
+        </div>
+        <!-- Item 4 -->
+        <div class="journey-item reveal">
+          <div class="journey-spacer"></div>
+          <div class="journey-dot"></div>
+          <div class="journey-card">
+            <div class="journey-card-icon">🌟</div>
+            <h3>The Future (Bigger Impact)</h3>
+            <p>Many islands ahead. The journey to create impactful technology continues — each project bringing me closer to the grand treasure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== FEATURED PROJECTS SECTION ===== -->
+  <section class="section section-ocean" id="projects">
+    <div class="section-inner">
+      <div class="projects-header">
+        <div class="section-header reveal" style="margin-bottom: 0;">
+          <span class="section-icon">⚔️</span>
+          <h2 class="section-title">Featured Projects</h2>
+        </div>
+        <a href="https://github.com/whiteknight-spec" target="_blank" class="projects-view-all reveal" rel="noopener">
+          View All Repos →
+        </a>
+      </div>
+      <div class="projects-grid stagger-children">
+        <!-- Project 1: VibeForge -->
+        <div class="project-card" id="project-vibeforge">
+          <div class="project-card-icon">🔥</div>
+          <h3>VibeForge</h3>
+          <p>Personal transformation tracker with AI assistance. Set goals, track progress, and level up with smart insights powered by Gemini AI.</p>
+          <div class="project-tags">
+            <span class="project-tag">Flutter</span>
+            <span class="project-tag">Firebase</span>
+            <span class="project-tag">Gemini AI</span>
+          </div>
+          <a href="#" class="project-link" id="link-vibeforge">View Project →</a>
+        </div>
+        <!-- Project 2: ATS Resume Analyzer -->
+        <div class="project-card" id="project-ats">
+          <div class="project-card-icon">📋</div>
+          <h3>ATS Resume Analyzer</h3>
+          <p>Analyze resumes with skill matching and improvement suggestions. Get your resume past ATS filters with AI-powered feedback.</p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">Flask</span>
+            <span class="project-tag">NLP</span>
+          </div>
+          <a href="#" class="project-link" id="link-ats">View Project →</a>
+        </div>
+        <!-- Project 3: Automation App -->
+        <div class="project-card" id="project-automation">
+          <div class="project-card-icon">⚙️</div>
+          <h3>Automation App</h3>
+          <p>Recreated an automation application with modern tools. Industrial-grade control systems brought to the modern web stack.</p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">IoT</span>
+            <span class="project-tag">SCADA</span>
+          </div>
+          <a href="#" class="project-link" id="link-automation">View Project →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== TECH STACK & LEARNING SECTION ===== -->
+  <section class="section section-ocean" id="tech">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-icon">🛠️</span>
+        <h2 class="section-title">Tech Stack</h2>
+      </div>
+      <div class="tech-grid-container">
+        <!-- Tech Stack Card -->
+        <div class="tech-stack-card reveal">
+          <h3>⚓ Tools & Technologies</h3>
+          <div class="tech-items stagger-children">
+            <div class="tech-item">
+              <span class="tech-item-icon">🐍</span>
+              <span>Python</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">📱</span>
+              <span>Flutter</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">🟨</span>
+              <span>JavaScript</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">🔥</span>
+              <span>Firebase</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">🌐</span>
+              <span>HTML</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">🎨</span>
+              <span>CSS</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">📦</span>
+              <span>Git</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">🐧</span>
+              <span>Linux</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">📡</span>
+              <span>IoT</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">⚡</span>
+              <span>Automation</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">🏭</span>
+              <span>SCADA</span>
+            </div>
+            <div class="tech-item">
+              <span class="tech-item-icon">📊</span>
+              <span>MATLAB</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Currently Learning Card -->
+        <div class="tech-stack-card reveal-right">
+          <h3>🧭 Currently Learning</h3>
+          <ul class="learning-list">
+            <li>React</li>
+            <li>Advanced Python</li>
+            <li>AI Agents</li>
+            <li>Automation & SCADA</li>
+            <li>Embedded Systems</li>
+            <li>Trading & Financial Tools</li>
+            <li>Cybersecurity (Basics)</li>
+          </ul>
+        </div>
+
+        <!-- Quote Card -->
+        <div class="tech-quote-card reveal">
+          <p class="tech-quote-text">
+            "A small step everyday to reach the grand treasure."
+          </p>
+          <p class="tech-quote-author">— Keerthivasan R</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="contact">
+    <div class="footer-bg">
+      <img src="assets/images/footer-bg.jpg" alt="Pirate ship deck at night">
+    </div>
+    <div class="footer-content">
+      <div class="footer-stamp reveal">
+        ☠️ Good Code, Better People
+      </div>
+      <h2 class="footer-motto reveal">Set Sail Together</h2>
+      <p class="footer-sub reveal">
+        Looking to collaborate on exciting projects? Want to join the crew?
+        Let's navigate the Grand Line of code together.
+      </p>
+      <div class="footer-social reveal">
+        <a href="mailto:keerthivasan6383007833@gmail.com" aria-label="Email" id="social-email" title="Email">
+          ✉️
+        </a>
+        <a href="https://github.com/whiteknight-spec" target="_blank" rel="noopener" aria-label="GitHub" id="social-github" title="GitHub">
+          🐙
+        </a>
+        <a href="#" aria-label="LinkedIn" id="social-linkedin" title="LinkedIn">
+          💼
+        </a>
+        <a href="#" aria-label="Twitter" id="social-twitter" title="Twitter">
+          🐦
+        </a>
+      </div>
+      <div class="footer-words">
+        <span>Dream</span>
+        <span>Plan</span>
+        <span>Code</span>
+        <span>Repeat</span>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-continued">
+          <span>To Be Continued...</span> — © 2024 Keerthivasan R
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
