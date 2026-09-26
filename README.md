@@ -11,7 +11,7 @@ The portfolio combines a modern developer interface with an adventurous visual s
 ## 🌊 Live Portfolio
 
 💻 **GitHub Repository:**  
-[Add your GitHub repository URL here]
+https://github.com/whiteknight-spec/portfolio.git
 
 ---
 
