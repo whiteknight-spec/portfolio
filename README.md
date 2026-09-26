@@ -10,9 +10,6 @@ The portfolio combines a modern developer interface with an adventurous visual s
 
 ## 🌊 Live Portfolio
 
-🚀 **Live Website:**  
-[Add your deployed website URL here]
-
 💻 **GitHub Repository:**  
 [Add your GitHub repository URL here]
 
