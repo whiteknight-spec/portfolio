@@ -245,8 +245,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     
-    // Start typing after poster intro + hero info cascade completes
-    setTimeout(typeChar, 4500);
+    // Start typing shortly after loader fades so it is immediately visible
+    setTimeout(typeChar, 1000);
   }
 
   // ===== PARALLAX EFFECT ON HERO =====
@@ -319,11 +319,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // ===== HERO VIDEO LIFECYCLE ENGINE =====
+  // ===== HERO VIDEO & TRANSPARENT PORTRAIT ENGINE =====
   function initHeroVideos() {
     const bgVideo = document.getElementById('heroBgVideo');
-    const portraitVideo = document.getElementById('heroPortraitVideo');
     const heroBgDiv = document.querySelector('.hero-bg');
+    const portraitSource = document.getElementById('heroPortraitSourceVideo');
+    const portraitCanvas = document.getElementById('heroPortraitCanvas');
     const portraitWrap = document.querySelector('.hero-portrait-wrap');
     const heroSection = document.getElementById('hero');
 
@@ -332,34 +333,128 @@ document.addEventListener('DOMContentLoaded', () => {
       bgVideo.addEventListener('playing', () => {
         heroBgDiv.classList.add('video-playing');
       }, { once: true });
-
-      // Ensure autoplay kicks in (some browsers need a nudge)
       bgVideo.play().catch(() => {});
     }
 
-    // Portrait video: fade out static PNG fallback once playing
-    if (portraitVideo && portraitWrap) {
-      portraitVideo.addEventListener('playing', () => {
-        portraitWrap.classList.add('portrait-video-playing');
-      }, { once: true });
+    // Transparent Portrait WebGL Renderer
+    if (portraitSource && portraitCanvas && portraitWrap) {
+      let isVisible = true;
+      let animFrameId = null;
 
-      portraitVideo.play().catch(() => {});
-    }
+      function startRenderer() {
+        const gl = portraitCanvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+        if (!gl) {
+          portraitSource.play().catch(() => {});
+          return;
+        }
 
-    // Pause/resume videos when hero scrolls in/out of view (GPU & battery saver)
-    if ('IntersectionObserver' in window && heroSection) {
-      const heroObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if (bgVideo && bgVideo.paused) bgVideo.play().catch(() => {});
-            if (portraitVideo && portraitVideo.paused) portraitVideo.play().catch(() => {});
-          } else {
-            if (bgVideo && !bgVideo.paused) bgVideo.pause();
-            if (portraitVideo && !portraitVideo.paused) portraitVideo.pause();
+        const vsSource = `
+          attribute vec2 a_pos;
+          varying vec2 v_texCoord;
+          void main() {
+            v_texCoord = vec2((a_pos.x + 1.0) * 0.5, 1.0 - (a_pos.y + 1.0) * 0.5);
+            gl_Position = vec4(a_pos, 0.0, 1.0);
           }
+        `;
+
+        const fsSource = `
+          precision mediump float;
+          uniform sampler2D u_video;
+          varying vec2 v_texCoord;
+          void main() {
+            vec2 rgbCoord = vec2(v_texCoord.x, v_texCoord.y * 0.5);
+            vec2 alphaCoord = vec2(v_texCoord.x, 0.5 + v_texCoord.y * 0.5);
+            vec4 color = texture2D(u_video, rgbCoord);
+            float alpha = texture2D(u_video, alphaCoord).r;
+            gl_FragColor = vec4(color.rgb, alpha);
+          }
+        `;
+
+        const createShader = (type, src) => {
+          const s = gl.createShader(type);
+          gl.shaderSource(s, src);
+          gl.compileShader(s);
+          return s;
+        };
+
+        const prog = gl.createProgram();
+        gl.attachShader(prog, createShader(gl.VERTEX_SHADER, vsSource));
+        gl.attachShader(prog, createShader(gl.FRAGMENT_SHADER, fsSource));
+        gl.linkProgram(prog);
+        gl.useProgram(prog);
+
+        const posBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+          -1, -1,
+           1, -1,
+          -1,  1,
+          -1,  1,
+           1, -1,
+           1,  1
+        ]), gl.STATIC_DRAW);
+
+        const aPos = gl.getAttribLocation(prog, 'a_pos');
+        gl.enableVertexAttribArray(aPos);
+        gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+        let hasFadedIn = false;
+        function renderLoop() {
+          if (isVisible && !portraitSource.paused && !portraitSource.ended && portraitSource.readyState >= 2) {
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, portraitSource);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+            if (!hasFadedIn) {
+              hasFadedIn = true;
+              portraitWrap.classList.add('portrait-video-playing');
+            }
+          }
+          if (isVisible) {
+            animFrameId = requestAnimationFrame(renderLoop);
+          }
+        }
+
+        portraitSource.addEventListener('playing', () => {
+          if (!animFrameId) renderLoop();
         });
-      }, { threshold: 0.05 });
-      heroObserver.observe(heroSection);
+
+        portraitSource.play().then(() => {
+          renderLoop();
+        }).catch(() => {});
+      }
+
+      startRenderer();
+
+      // Pause/resume videos when hero scrolls in/out of view (GPU & battery saver)
+      if ('IntersectionObserver' in window && heroSection) {
+        const heroObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              isVisible = true;
+              if (bgVideo && bgVideo.paused) bgVideo.play().catch(() => {});
+              if (portraitSource && portraitSource.paused) portraitSource.play().catch(() => {});
+              if (!animFrameId) startRenderer();
+            } else {
+              isVisible = false;
+              if (bgVideo && !bgVideo.paused) bgVideo.pause();
+              if (portraitSource && !portraitSource.paused) portraitSource.pause();
+              if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+              }
+            }
+          });
+        }, { threshold: 0.05 });
+        heroObserver.observe(heroSection);
+      }
     }
   }
 

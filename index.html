@@ -63,10 +63,10 @@
     <div class="hero-portrait-wrap" aria-hidden="true">
       <div class="portrait-backlight"></div>
 
-      <!-- Live portrait video (black bg removed via mix-blend-mode: screen) -->
-      <video class="hero-portrait hero-portrait-video" id="heroPortraitVideo" autoplay muted loop playsinline poster="assets/images/keerthi-hero.png">
-        <source src="assets/images/hero-portrait-video.mp4" type="video/mp4">
-      </video>
+      <!-- Hidden video source providing stacked RGB + Alpha frames -->
+      <video id="heroPortraitSourceVideo" autoplay muted loop playsinline preload="auto" src="assets/images/hero-portrait-stacked.mp4" style="position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px;"></video>
+      <!-- Transparent portrait canvas: 100% transparent background across all browsers (Safari, Chrome, iOS) -->
+      <canvas class="hero-portrait hero-portrait-canvas" id="heroPortraitCanvas" width="880" height="720"></canvas>
       <!-- Static fallback (visible until video plays) -->
       <img class="hero-portrait hero-portrait-fallback" src="assets/images/keerthi-hero.png" alt="Keerthivasan">
 

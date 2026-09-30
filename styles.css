@@ -2824,11 +2824,28 @@ a {
   animation: portraitFloat 7s ease-in-out infinite;
 }
 
-/* Live portrait video — black bg keyed out via screen blend */
-.hero-portrait-video {
-  mix-blend-mode: screen;
+/* Live portrait canvas — hardware-accelerated WebGL with 100% transparent background.
+   Preserves solid hair, body, and clothing (no black box, no ghosting)
+   with realistic wind motion on hair and polo shirt across Safari, Chrome, and iOS. */
+.hero-portrait-canvas {
+  position: absolute;
   z-index: 2;
-  filter: saturate(1.12) contrast(1.08) brightness(1.05) drop-shadow(0 18px 28px rgba(0,0,0,.36));
+  left: 0;
+  bottom: 0;
+  width: auto;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  object-position: left bottom;
+  filter: saturate(1.04) contrast(1.04) brightness(1.02) drop-shadow(0 18px 28px rgba(0,0,0,.36));
+  animation: portraitFloat 7s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.hero-portrait-wrap.portrait-video-playing .hero-portrait-canvas {
+  opacity: 1;
 }
 
 /* Static fallback PNG — visible until video plays */
@@ -3083,6 +3100,11 @@ a {
   margin-right: 2vw;
   text-align: left;
 }
+.hero-cinematic .hero-info::before {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
 .hero-cinematic .hero-subtitle-top,
 .hero-cinematic .hero-title,
 .hero-cinematic .hero-role,
@@ -3092,9 +3114,187 @@ a {
   opacity: 1;
   transform: none;
 }
-.hero-cinematic .hero-title { font-size: clamp(3rem, 5.5vw, 5.4rem); }
-.hero-cinematic .hero-role { color: rgba(244,228,193,.82); }
-.hero-cinematic .hero-tagline { color: #ead6ad; }
+
+/* ⚓ Dead or Average badge */
+.hero-cinematic .hero-subtitle-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #ffd885;
+  background: rgba(12, 18, 30, 0.72);
+  border: 1px solid rgba(255, 215, 120, 0.45);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  margin-bottom: 0.85rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* Keerthivasan R main title — pure typography, no box, no clipping border */
+.hero-cinematic .hero-title {
+  font-size: clamp(3.2rem, 5.8vw, 5.6rem);
+  line-height: 1.05;
+  margin-bottom: 0.8rem;
+}
+
+.hero-cinematic .hero-title #heroName {
+  display: inline-block;
+  position: relative;
+  color: var(--gold-bright) !important;
+  -webkit-text-fill-color: var(--gold-bright) !important;
+  background: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  clip-path: none !important;
+  transform: none !important;
+  animation: none !important;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.85), 0 0 25px rgba(255, 195, 75, 0.3);
+}
+
+.hero-cinematic .hero-title #heroName::after {
+  display: none !important;
+}
+
+/* Software Developer */
+.hero-cinematic .hero-role {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #fff6e0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(255, 195, 75, 0.35);
+  margin-bottom: 0.8rem;
+}
+
+/* Still Exploring... Still Building... Still Me... */
+.hero-cinematic .hero-tagline {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #ffecd1;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+  margin-bottom: 1.6rem;
+  letter-spacing: 0.5px;
+}
+
+/* Action buttons */
+.hero-cinematic .hero-actions {
+  display: flex;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.hero-cinematic .hero-actions .btn-primary {
+  background: linear-gradient(135deg, #f7c754 0%, #e58d22 100%);
+  color: #0b111a;
+  font-weight: 800;
+  font-size: 0.92rem;
+  letter-spacing: 2px;
+  padding: 0.95rem 2.2rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 235, 160, 0.7);
+  box-shadow: 0 4px 20px rgba(230, 140, 30, 0.45), 0 2px 8px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hero-cinematic .hero-actions .btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(255, 165, 45, 0.65), 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.hero-cinematic .hero-actions .btn-outline {
+  background: rgba(14, 20, 32, 0.78);
+  color: #ffe08a;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 2px;
+  padding: 0.95rem 2.2rem;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255, 210, 110, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hero-cinematic .hero-actions .btn-outline:hover {
+  background: rgba(255, 195, 60, 0.24);
+  border-color: #ffd479;
+  color: #ffffff;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(255, 180, 60, 0.4), 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* Nav pills */
+.hero-cinematic .hero-nav-pills {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.hero-cinematic .hero-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(12, 18, 30, 0.72);
+  border: 1px solid rgba(255, 215, 120, 0.35);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  color: #f7e7c4;
+  font-weight: 600;
+  font-size: 0.82rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  transition: all 0.3s ease;
+}
+
+.hero-cinematic .hero-nav-pill:hover {
+  background: rgba(255, 200, 70, 0.24);
+  border-color: rgba(255, 215, 120, 0.75);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(255, 180, 50, 0.35);
+}
+
+/* Scroll indicator */
+.hero-cinematic .scroll-indicator {
+  bottom: 1.8rem;
+}
+
+.hero-cinematic .scroll-indicator span {
+  color: #ffd885;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+.hero-cinematic .scroll-mouse {
+  border: 2px solid rgba(255, 215, 120, 0.75);
+  box-shadow: 0 0 14px rgba(255, 190, 70, 0.4), 0 4px 12px rgba(0, 0, 0, 0.7);
+  background: rgba(10, 16, 26, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.hero-cinematic .scroll-mouse::after {
+  background: #ffd885;
+  box-shadow: 0 0 8px #ffd885;
+}
 
 @media (max-width: 1000px) {
   .hero-cinematic .hero-content { justify-content:center; }
@@ -3104,6 +3304,7 @@ a {
   .hero-cinematic .hero-bg img,
   .hero-cinematic .hero-bg video { object-position:center; }
 }
+
 @media (max-width: 620px) {
   .hero-cinematic { min-height:100svh; height:100svh; }
   .hero-cinematic .hero-content { padding:6.5rem 1rem 3.5rem; align-items:center; }
@@ -3112,63 +3313,10 @@ a {
   .hero-portrait-wrap { left:-30vw; bottom:-3vh; width:118vw; height:72vh; opacity:.52; }
   .hero-cinematic .hero-bg img,
   .hero-cinematic .hero-bg video { filter:brightness(.45) saturate(1.15); }
+  .hero-cinematic .hero-actions { justify-content: center; gap: 0.8rem; }
+  .hero-cinematic .hero-nav-pills { justify-content: center; gap: 0.6rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-cinematic * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
-}
-
-/* =========================================================
-   KEERTHIVASAN R — VISIBLE CINEMATIC NAME REVEAL
-   ========================================================= */
-.hero-cinematic .hero-title #heroName {
-  display: inline-block;
-  position: relative;
-  color: var(--gold-bright) !important;
-  -webkit-text-fill-color: var(--gold-bright) !important;
-  background: none !important;
-  opacity: 1 !important;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,.35));
-  clip-path: inset(0 100% 0 0);
-  transform: translateX(-18px);
-  animation: keerthiNameReveal 1.25s cubic-bezier(.16,1,.3,1) .55s forwards;
-  will-change: clip-path, transform;
-}
-
-/* A warm highlight follows the reveal, then disappears. */
-.hero-cinematic .hero-title #heroName::after {
-  content: '';
-  position: absolute;
-  top: 8%;
-  bottom: 8%;
-  left: -12%;
-  width: 8%;
-  border-radius: 999px;
-  background: rgba(255,245,190,.9);
-  filter: blur(7px);
-  opacity: 0;
-  pointer-events: none;
-  animation: nameLightPass .75s ease-out 1.55s forwards;
-}
-
-@keyframes keerthiNameReveal {
-  0% { clip-path: inset(0 100% 0 0); transform: translateX(-18px); }
-  70% { clip-path: inset(0 4% 0 0); transform: translateX(2px); }
-  86% { clip-path: inset(0 0 0 0); transform: translateX(-1px); }
-  100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
-}
-
-@keyframes nameLightPass {
-  0% { left: -10%; opacity: 0; }
-  18% { opacity: .9; }
-  100% { left: 108%; opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-cinematic .hero-title #heroName {
-    animation: none !important;
-    clip-path: inset(0) !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
 }
