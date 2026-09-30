@@ -250,13 +250,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===== PARALLAX EFFECT ON HERO =====
-  const heroBg = document.querySelector('.hero-bg img');
+  const heroBgFallback = document.querySelector('.hero-bg-fallback');
   
-  if (heroBg) {
+  if (heroBgFallback) {
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
       if (scrolled < window.innerHeight) {
-        heroBg.style.transform = `translateY(${scrolled * 0.3}px) scale(1.1)`;
+        heroBgFallback.style.transform = `translateY(${scrolled * 0.3}px) scale(1.1)`;
       }
     }, { passive: true });
   }
@@ -318,6 +318,52 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: true });
   }
+
+  // ===== HERO VIDEO LIFECYCLE ENGINE =====
+  function initHeroVideos() {
+    const bgVideo = document.getElementById('heroBgVideo');
+    const portraitVideo = document.getElementById('heroPortraitVideo');
+    const heroBgDiv = document.querySelector('.hero-bg');
+    const portraitWrap = document.querySelector('.hero-portrait-wrap');
+    const heroSection = document.getElementById('hero');
+
+    // Background video: fade out static fallback once playing
+    if (bgVideo && heroBgDiv) {
+      bgVideo.addEventListener('playing', () => {
+        heroBgDiv.classList.add('video-playing');
+      }, { once: true });
+
+      // Ensure autoplay kicks in (some browsers need a nudge)
+      bgVideo.play().catch(() => {});
+    }
+
+    // Portrait video: fade out static PNG fallback once playing
+    if (portraitVideo && portraitWrap) {
+      portraitVideo.addEventListener('playing', () => {
+        portraitWrap.classList.add('portrait-video-playing');
+      }, { once: true });
+
+      portraitVideo.play().catch(() => {});
+    }
+
+    // Pause/resume videos when hero scrolls in/out of view (GPU & battery saver)
+    if ('IntersectionObserver' in window && heroSection) {
+      const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (bgVideo && bgVideo.paused) bgVideo.play().catch(() => {});
+            if (portraitVideo && portraitVideo.paused) portraitVideo.play().catch(() => {});
+          } else {
+            if (bgVideo && !bgVideo.paused) bgVideo.pause();
+            if (portraitVideo && !portraitVideo.paused) portraitVideo.pause();
+          }
+        });
+      }, { threshold: 0.05 });
+      heroObserver.observe(heroSection);
+    }
+  }
+
+  initHeroVideos();
 
   console.log('%c☠️ Welcome to the Grand Line, nakama! ☠️', 
     'color: #d4a853; font-size: 20px; font-family: serif; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);');

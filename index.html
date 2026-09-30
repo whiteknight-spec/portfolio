@@ -47,38 +47,30 @@
   <!-- ===== HERO SECTION ===== -->
   <section class="hero hero-cinematic" id="hero">
     <div class="hero-bg" aria-hidden="true">
-      <img src="assets/images/ocean-hero-bg.jpg" alt="Epic ocean sunset with pirate ships">
+      <!-- Looping ocean cinematic video background -->
+      <video class="hero-bg-video" id="heroBgVideo" autoplay muted loop playsinline poster="assets/images/ocean-hero-bg.jpg">
+        <source src="assets/images/hero-bg-video.mp4" type="video/mp4">
+      </video>
+      <!-- Static fallback image (shown until video loads) -->
+      <img class="hero-bg-fallback" src="assets/images/ocean-hero-bg.jpg" alt="Epic ocean sunset with pirate ships">
       <div class="hero-cloud-motion"></div>
       <div class="hero-sun-glow"></div>
       <div class="hero-ocean-shimmer"></div>
       <div class="hero-light-streak"></div>
     </div>
 
-    <!-- Keerthivasan portrait: same uploaded pose, anchored to the left corner. -->
+    <!-- Keerthivasan portrait: live video with realistic hair & cloth motion -->
     <div class="hero-portrait-wrap" aria-hidden="true">
       <div class="portrait-backlight"></div>
-      <img class="hero-portrait" src="assets/images/keerthi-hero.png" alt="">
 
-      <!-- Hair wind strands — wisps blowing from the curly hair -->
-      <div class="hair-strand hair-strand-1"></div>
-      <div class="hair-strand hair-strand-2"></div>
-      <div class="hair-strand hair-strand-3"></div>
-      <div class="hair-strand hair-strand-4"></div>
-      <div class="hair-strand hair-strand-5"></div>
+      <!-- Live portrait video (black bg removed via mix-blend-mode: screen) -->
+      <video class="hero-portrait hero-portrait-video" id="heroPortraitVideo" autoplay muted loop playsinline poster="assets/images/keerthi-hero.png">
+        <source src="assets/images/hero-portrait-video.mp4" type="video/mp4">
+      </video>
+      <!-- Static fallback (visible until video plays) -->
+      <img class="hero-portrait hero-portrait-fallback" src="assets/images/keerthi-hero.png" alt="Keerthivasan">
 
-      <!-- Wider sweeping wind streaks across the figure -->
-      <div class="portrait-wind portrait-wind-1"></div>
-      <div class="portrait-wind portrait-wind-2"></div>
-      <div class="portrait-wind portrait-wind-3"></div>
-      <div class="portrait-wind portrait-wind-4"></div>
-      <div class="portrait-wind portrait-wind-5"></div>
-
-      <!-- Shirt/collar fabric ripple layers -->
-      <div class="shirt-wind"></div>
-      <div class="shirt-wind shirt-wind-2"></div>
-      <div class="shirt-wind shirt-wind-3"></div>
-
-      <!-- Golden wind dust particles -->
+      <!-- Golden wind dust particles (kept for extra atmosphere on top of video) -->
       <div class="wind-particle wind-particle-1"></div>
       <div class="wind-particle wind-particle-2"></div>
       <div class="wind-particle wind-particle-3"></div>

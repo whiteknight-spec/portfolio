@@ -2713,15 +2713,33 @@ a {
   z-index: 0;
 }
 
-.hero-cinematic .hero-bg img {
+.hero-cinematic .hero-bg img,
+.hero-cinematic .hero-bg video {
   width: 106%;
   height: 106%;
   margin: -3% 0 0 -3%;
   object-fit: cover;
   object-position: center center;
   filter: brightness(.52) saturate(1.18) contrast(1.04);
-  animation: oceanParallax 22s ease-in-out infinite alternate;
   transform-origin: center;
+}
+
+.hero-cinematic .hero-bg .hero-bg-video {
+  position: absolute;
+  z-index: 1;
+  animation: none;  /* video has its own motion, no parallax needed */
+}
+
+.hero-cinematic .hero-bg .hero-bg-fallback {
+  position: absolute;
+  z-index: 0;
+  animation: oceanParallax 22s ease-in-out infinite alternate;
+}
+
+/* Hide fallback once video is playing */
+.hero-cinematic .hero-bg.video-playing .hero-bg-fallback {
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
 .hero-cinematic .hero-bg::after {
@@ -2804,6 +2822,25 @@ a {
   object-position: left bottom;
   filter: saturate(1.02) contrast(1.03) drop-shadow(0 18px 28px rgba(0,0,0,.36));
   animation: portraitFloat 7s ease-in-out infinite;
+}
+
+/* Live portrait video — black bg keyed out via screen blend */
+.hero-portrait-video {
+  mix-blend-mode: screen;
+  z-index: 2;
+  filter: saturate(1.12) contrast(1.08) brightness(1.05) drop-shadow(0 18px 28px rgba(0,0,0,.36));
+}
+
+/* Static fallback PNG — visible until video plays */
+.hero-portrait-fallback {
+  z-index: 1;
+  transition: opacity 0.8s ease;
+}
+
+/* When video is playing, fade out the static fallback */
+.hero-portrait-wrap.portrait-video-playing .hero-portrait-fallback {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .portrait-backlight {
@@ -3064,7 +3101,8 @@ a {
   .hero-cinematic .hero-info { width:min(700px, 88vw); margin:0; text-align:center; }
   .hero-cinematic .hero-actions, .hero-cinematic .hero-nav-pills { justify-content:center; }
   .hero-portrait-wrap { left:-18vw; width:92vw; opacity:.72; }
-  .hero-cinematic .hero-bg img { object-position:center; }
+  .hero-cinematic .hero-bg img,
+  .hero-cinematic .hero-bg video { object-position:center; }
 }
 @media (max-width: 620px) {
   .hero-cinematic { min-height:100svh; height:100svh; }
@@ -3072,7 +3110,8 @@ a {
   .hero-cinematic .hero-info { width:94vw; }
   .hero-cinematic .hero-title { font-size:clamp(2.6rem,12vw,4rem); }
   .hero-portrait-wrap { left:-30vw; bottom:-3vh; width:118vw; height:72vh; opacity:.52; }
-  .hero-cinematic .hero-bg img { filter:brightness(.45) saturate(1.15); }
+  .hero-cinematic .hero-bg img,
+  .hero-cinematic .hero-bg video { filter:brightness(.45) saturate(1.15); }
 }
 
 @media (prefers-reduced-motion: reduce) {
